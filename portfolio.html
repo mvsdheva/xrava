@@ -1,251 +1,316 @@
-<!DOCTYPE html>
-<html lang="en" class="cursor-none">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arthur - Creative Portfolio</title>
-    
-    <link rel="stylesheet" href="locomotive-scroll.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'arthur-bg': '#0f1012',
-                        'arthur-card': '#1a1c20',
-                        'arthur-purple': '#9f83ff',
-                        'arthur-muted': '#888888',
-                    },
-                    fontFamily: {
-                        sans: ['Manrope', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+        
+        @property --gradient-angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+        @property --gradient-angle-offset {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+        @property --gradient-percent {
+            syntax: "<percentage>";
+            initial-value: 20%;
+            inherits: false;
+        }
+        @property --gradient-shine {
+            syntax: "<color>";
+            initial-value: #9f83ff;
+            inherits: false;
+        }
+
         body {
             background-color: #0f1012;
             color: #ffffff;
             font-family: 'Manrope', sans-serif;
         }
 
-        /* --- Custom Cursor from Nomad File --- */
+        /* Circuit Canvas Background */
+        #circuitCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Custom Cursor */
         .cursor-dot, .cursor-ring {
             position: fixed;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             transform: translate(-50%, -50%);
             border-radius: 50%;
             z-index: 9999;
             pointer-events: none;
         }
+
         .cursor-dot {
-            width: 8px; height: 8px;
-            background-color: #9f83ff; /* Adapted to Purple */
+            width: 8px;
+            height: 8px;
+            background-color: #9f83ff;
             box-shadow: 0 0 15px 2px rgba(159, 131, 255, 0.8);
             transition: width 0.1s, height 0.1s;
         }
+
         .cursor-ring {
-            width: 32px; height: 32px;
+            width: 32px;
+            height: 32px;
             border: 1.5px solid rgba(159, 131, 255, 0.4);
             background-color: rgba(159, 131, 255, 0.05);
             transition: all 0.1s ease-out;
         }
+
         body.hovering .cursor-ring {
-            width: 50px; height: 50px;
+            width: 50px;
+            height: 50px;
             border-color: #9f83ff;
             background-color: rgba(159, 131, 255, 0.15);
         }
 
-        /* --- Ambient Background --- */
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: blob-bounce 10s infinite ease-in-out;
-            z-index: 0;
-        }
-        @keyframes blob-bounce {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        /* --- Glass Card Utility --- */
+        /* Glass Card */
         .glass-card {
             background: linear-gradient(145deg, rgba(26, 28, 32, 0.8) 0%, rgba(20, 20, 25, 0.6) 100%);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Locomotive Scroll Fix */
-        /*! locomotive-scroll v4.1.3 */
-        html.has-scroll-smooth { overflow: hidden; }
-        html.has-scroll-dragging { user-select: none; }
-        .has-scroll-smooth body { overflow: hidden; }
-        .has-scroll-smooth [data-scroll-container] { min-height: 100vh; }
-        
-        .c-scrollbar_thumb { background-color: #9f83ff !important; }
+        /* Shiny CTA Button */
+        .shiny-cta {
+            --gradient-angle: 0deg;
+            --gradient-angle-offset: 0deg;
+            --gradient-percent: 20%;
+            --gradient-shine: #9f83ff;
+            --shadow-size: 2px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 9999px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            line-height: 1.2;
+            font-weight: 500;
+            color: #ffffff;
+            background: linear-gradient(#0f1012, #0f1012) padding-box,
+                conic-gradient(from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
+                    transparent 0%, #7c3aed 5%, var(--gradient-shine) 15%, #7c3aed 30%, transparent 40%, transparent 100%) border-box;
+            border: 2px solid transparent;
+            box-shadow: inset 0 0 0 1px rgba(159, 131, 255, 0.2);
+            outline: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            isolation: isolate;
+            font-family: 'Manrope', sans-serif;
+            z-index: 0;
+            animation: border-spin 2.5s linear infinite;
+        }
+
+        @keyframes border-spin {
+            to { --gradient-angle: 360deg; }
+        }
+
+        .shiny-cta:hover {
+            box-shadow: 0 0 20px rgba(159, 131, 255, 0.4), inset 0 0 0 1px rgba(159, 131, 255, 0.3);
+        }
+
+        .shiny-cta:active {
+            transform: translateY(1px);
+        }
+
+        .shiny-cta::after {
+            content: '';
+            pointer-events: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(-50deg, transparent, #9f83ff, transparent);
+            mask-image: radial-gradient(circle at bottom, transparent 40%, black);
+            opacity: 0.6;
+            animation: shimmer 4s linear infinite;
+        }
+
+        .shiny-cta span {
+            position: relative;
+            z-index: 2;
+            display: inline-block;
+        }
+
+        @keyframes shimmer {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
     </style>
 </head>
-<body class="selection:bg-arthur-purple/30">
-
+<body class="cursor-none selection:bg-arthur-purple/30">
+    <canvas id="circuitCanvas"></canvas>
+    
     <div id="cursor-dot" class="cursor-dot"></div>
     <div id="cursor-ring" class="cursor-ring"></div>
 
-    <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <div class="blob bg-purple-900/40 w-96 h-96 top-0 left-0"></div>
-        <div class="blob bg-blue-900/30 w-[500px] h-[500px] bottom-0 right-0 animation-delay-2000"></div>
-    </div>
-
-    <div data-scroll-container>
-
-        <header class="absolute top-0 w-full p-8 md:px-12 z-50 flex justify-between items-center" data-scroll-section>
-            <div class="interactable font-bold text-xl tracking-tight flex items-center gap-2">
+    <div class="relative z-10">
+        <header class="fixed top-0 w-full p-6 md:p-8 z-50 flex justify-between items-center">
+            <div class="interactable font-semibold text-lg tracking-tight flex items-center gap-2">
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-arthur-purple to-purple-800 flex items-center justify-center">
-                    <span class="text-white text-xs">A</span>
+                    <span class="text-white text-xs font-semibold">A</span>
                 </div>
                 Arthur
             </div>
+            
             <nav class="hidden md:flex gap-8 text-sm font-medium text-arthur-muted">
                 <a href="#" class="interactable hover:text-white transition-colors">Home</a>
                 <a href="#" class="interactable hover:text-white transition-colors">About</a>
                 <a href="#" class="interactable hover:text-white transition-colors">Services</a>
                 <a href="#" class="interactable hover:text-white transition-colors">Work</a>
             </nav>
+            
             <div class="flex gap-4 text-arthur-muted text-sm">
-                <i data-lucide="twitter" class="w-4 h-4 interactable hover:text-white cursor-pointer"></i>
-                <i data-lucide="instagram" class="w-4 h-4 interactable hover:text-white cursor-pointer"></i>
-                <i data-lucide="dribbble" class="w-4 h-4 interactable hover:text-white cursor-pointer"></i>
+                <i data-lucide="twitter" class="w-4 h-4 interactable hover:text-white cursor-pointer" stroke-width="1.5"></i>
+                <i data-lucide="instagram" class="w-4 h-4 interactable hover:text-white cursor-pointer" stroke-width="1.5"></i>
+                <i data-lucide="dribbble" class="w-4 h-4 interactable hover:text-white cursor-pointer" stroke-width="1.5"></i>
             </div>
         </header>
 
-        <section class="relative min-h-screen pt-32 pb-20 px-6 md:px-12 flex items-center" data-scroll-section>
+        <section class="relative min-h-screen pt-32 pb-20 px-6 md:px-12 flex items-center">
             <div class="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                
-                <div class="lg:col-span-3 space-y-12" data-scroll data-scroll-speed="1">
-                    <h1 class="text-6xl md:text-8xl font-bold leading-none tracking-tighter">
+                <div class="lg:col-span-3 space-y-12">
+                    <h1 class="text-6xl md:text-7xl lg:text-8xl font-semibold leading-none tracking-tighter">
                         Crafting
                     </h1>
                     
                     <div class="space-y-6 pt-10">
                         <div>
                             <div class="flex justify-between text-xs font-medium mb-2 text-arthur-muted">
-                                <span>Figma Icon</span><span>90%</span>
+                                <span>Figma</span><span>90%</span>
                             </div>
                             <div class="h-1 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-arthur-purple w-[90%]"></div>
+                                <div class="h-full bg-arthur-purple w-[90%] rounded-full"></div>
                             </div>
                         </div>
+                        
                         <div>
                             <div class="flex justify-between text-xs font-medium mb-2 text-arthur-muted">
                                 <span>Adobe Illustrator</span><span>85%</span>
                             </div>
                             <div class="h-1 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-arthur-purple w-[85%]"></div>
+                                <div class="h-full bg-arthur-purple w-[85%] rounded-full"></div>
                             </div>
                         </div>
-                         <div>
+                        
+                        <div>
                             <div class="flex justify-between text-xs font-medium mb-2 text-arthur-muted">
                                 <span>Adobe Photoshop</span><span>75%</span>
                             </div>
                             <div class="h-1 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full bg-arthur-purple w-[75%]"></div>
+                                <div class="h-full bg-arthur-purple w-[75%] rounded-full"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-6 relative z-10" data-scroll data-scroll-speed="2">
+                <div class="lg:col-span-6 relative z-10">
                     <div class="aspect-[4/5] rounded-2xl overflow-hidden glass-card p-2 relative">
                         <img src="https://placehold.co/600x800/2a2a2a/FFF?text=Hero+Portrait" alt="Arthur" class="w-full h-full object-cover rounded-xl filter brightness-110">
                         
-                        <div class="absolute -right-10 top-20 glass-card p-4 rounded-xl hidden md:block" data-scroll data-scroll-speed="1.5">
-                            <div class="text-[10px] text-arthur-muted uppercase tracking-widest mb-1">Creative Portfolio</div>
-                            <div class="text-white font-bold">Arthur .C</div>
+                        <div class="absolute -right-10 top-20 glass-card p-4 rounded-xl hidden md:block">
+                            <div class="text-xs text-arthur-muted uppercase tracking-widest mb-1">Creative Portfolio</div>
+                            <div class="text-white font-semibold">Arthur.C</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-3 text-right flex flex-col items-end" data-scroll data-scroll-speed="1.2">
+                <div class="lg:col-span-3 text-right flex flex-col items-end">
                     <div class="mb-8">
-                        <span class="text-xs uppercase tracking-[0.2em] text-arthur-muted border-b border-arthur-purple/50 pb-1">Creative Portfolio</span>
+                        <span class="text-xs uppercase tracking-widest text-arthur-muted border-b border-arthur-purple/50 pb-1">Creative Portfolio</span>
                     </div>
                     
-                    <h1 class="text-6xl md:text-8xl font-bold leading-none tracking-tighter mb-10">
+                    <h1 class="text-6xl md:text-7xl lg:text-8xl font-semibold leading-none tracking-tighter mb-10">
                         Visual
                     </h1>
-
-                    <p class="text-arthur-muted text-sm leading-relaxed mb-8 max-w-[200px]">
+                    
+                    <p class="text-arthur-muted text-sm leading-relaxed mb-8 max-w-xs">
                         I am Arthur—a creative thinker, designer, and visual storyteller. I specialize in transforming abstract ideas into art.
                     </p>
-
-                    <button class="interactable bg-arthur-purple text-white px-8 py-3 rounded-full text-sm font-semibold hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(159,131,255,0.4)] hover:shadow-none">
-                        Explore Work
+                    
+                    <button class="shiny-cta interactable focus:outline-none">
+                        <span>Explore Work</span>
                     </button>
-
+                    
                     <div class="mt-12 w-full h-24 bg-gradient-to-t from-arthur-purple/20 to-transparent rounded-lg relative overflow-hidden">
-                         <svg class="absolute bottom-0 w-full" viewBox="0 0 100 25" preserveAspectRatio="none">
-                             <path d="M0,25 L0,15 C20,10 40,20 60,5 C80,-5 100,10 100,10 L100,25 Z" fill="rgba(159,131,255,0.3)"></path>
-                             <path d="M0,25 L0,20 C30,15 50,22 70,10 C90,5 100,15 100,15 L100,25 Z" fill="rgba(159,131,255,0.6)"></path>
-                         </svg>
+                        <svg class="absolute bottom-0 w-full" viewBox="0 0 100 25" preserveAspectRatio="none">
+                            <path d="M0,25 L0,15 C20,10 40,20 60,5 C80,-5 100,10 100,10 L100,25 Z" fill="rgba(159,131,255,0.3)"></path>
+                            <path d="M0,25 L0,20 C30,15 50,22 70,10 C90,5 100,15 100,15 L100,25 Z" fill="rgba(159,131,255,0.6)"></path>
+                        </svg>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="py-32 px-6 md:px-12" data-scroll-section>
+        <section class="py-32 px-6 md:px-12">
             <div class="container mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold mb-20" data-scroll>Bold Creations with a <br><span class="text-arthur-muted">Personal Touch</span></h2>
+                <h2 class="text-4xl md:text-5xl font-semibold mb-20 tracking-tight">
+                    Bold Creations with a <br><span class="text-arthur-muted">Personal Touch</span>
+                </h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
-                    
-                    <div class="space-y-12" data-scroll data-scroll-speed="0.5">
+                    <div class="space-y-12">
                         <div class="flex gap-4 group interactable">
                             <span class="text-2xl font-mono text-arthur-muted group-hover:text-arthur-purple transition-colors">01</span>
                             <div>
-                                <h4 class="text-lg font-bold mb-2">Design with empathy</h4>
+                                <h4 class="text-lg font-semibold mb-2">Design with empathy</h4>
                                 <p class="text-sm text-arthur-muted leading-relaxed">Combining bold aesthetics with thoughtful strategy to ensure inclusivity.</p>
                             </div>
                         </div>
+                        
                         <div class="flex gap-4 group interactable">
                             <span class="text-2xl font-mono text-arthur-muted group-hover:text-arthur-purple transition-colors">02</span>
                             <div>
-                                <h4 class="text-lg font-bold mb-2">Crafted to perfection</h4>
+                                <h4 class="text-lg font-semibold mb-2">Crafted to perfection</h4>
                                 <p class="text-sm text-arthur-muted leading-relaxed">Obsessive attention to detail. Every pixel plays a role in the story.</p>
                             </div>
                         </div>
                         
                         <div class="flex gap-3 pt-8">
-                            <div class="w-10 h-10 rounded-full bg-arthur-card flex items-center justify-center interactable hover:bg-white hover:text-black transition-colors"><i data-lucide="dribbble" class="w-4 h-4"></i></div>
-                            <div class="w-10 h-10 rounded-full bg-arthur-card flex items-center justify-center interactable hover:bg-white hover:text-black transition-colors"><i data-lucide="behance" class="w-4 h-4"></i></div>
-                            <div class="w-10 h-10 rounded-full bg-arthur-card flex items-center justify-center interactable hover:bg-white hover:text-black transition-colors"><i data-lucide="linkedin" class="w-4 h-4"></i></div>
+                            <div class="w-10 h-10 rounded-full bg-arthur-card flex items-center justify-center interactable hover:bg-white hover:text-black transition-colors cursor-pointer">
+                                <i data-lucide="dribbble" class="w-4 h-4" stroke-width="1.5"></i>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-arthur-card flex items-center justify-center interactable hover:bg-white hover:text-black transition-colors cursor-pointer">
+                                <i data-lucide="linkedin" class="w-4 h-4" stroke-width="1.5"></i>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-arthur-card flex items-center justify-center interactable hover:bg-white hover:text-black transition-colors cursor-pointer">
+                                <i data-lucide="github" class="w-4 h-4" stroke-width="1.5"></i>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="relative" data-scroll data-scroll-speed="1.5">
+                    <div class="relative">
                         <div class="aspect-[3/4] rounded-2xl overflow-hidden relative group interactable">
                             <img src="https://placehold.co/400x500/333/FFF?text=Project+Alpha" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                             <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
                         </div>
                         <div class="absolute -bottom-10 -left-10 glass-card p-6 rounded-xl border-l-4 border-arthur-purple">
-                            <h3 class="text-2xl font-bold leading-tight">Lines of Code<br>Designed.</h3>
+                            <h3 class="text-xl font-semibold leading-tight">Lines of Code<br>Designed.</h3>
                         </div>
                     </div>
 
-                    <div class="glass-card p-8 rounded-2xl" data-scroll data-scroll-speed="0.5">
-                        <h4 class="text-xl font-bold mb-4">Service Scope</h4>
+                    <div class="glass-card p-8 rounded-2xl">
+                        <h4 class="text-xl font-semibold mb-4">Service Scope</h4>
                         <p class="text-sm text-arthur-muted mb-8">Designing and optimizing online shopping experiences. We build ecosystems.</p>
                         
                         <div class="flex flex-wrap gap-2 mb-8">
@@ -254,188 +319,77 @@
                             <span class="px-4 py-2 rounded-full border border-white/10 text-xs text-arthur-muted hover:border-arthur-purple hover:text-white transition-colors cursor-default">Brand</span>
                             <span class="px-4 py-2 rounded-full border border-white/10 text-xs text-arthur-muted hover:border-arthur-purple hover:text-white transition-colors cursor-default">Visual</span>
                         </div>
-
-                        <a href="#" class="interactable inline-flex items-center text-sm font-bold hover:text-arthur-purple transition-colors">
-                            Learn More <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        
+                        <a href="#" class="interactable inline-flex items-center text-sm font-semibold hover:text-arthur-purple transition-colors">
+                            Learn More
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="py-32 px-6 md:px-12 bg-arthur-card/30" data-scroll-section>
-            <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="relative" data-scroll data-scroll-speed="1">
-                    <div class="w-3/4 aspect-[3/4] bg-gray-800 rounded-2xl overflow-hidden">
-                         <img src="https://placehold.co/450x600/2a2a2a/FFF?text=Design+Process" class="w-full h-full object-cover">
-                    </div>
-                    <div class="absolute top-1/4 right-0 w-1/2 aspect-square glass-card rounded-2xl -z-10 border border-arthur-purple/20" data-scroll data-scroll-speed="-0.5"></div>
-                </div>
-
-                <div data-scroll data-scroll-speed="0.5">
-                    <span class="inline-block px-3 py-1 rounded bg-arthur-purple text-xs font-bold mb-6">Workflow</span>
-                    <h2 class="text-4xl md:text-6xl font-bold mb-8">Design That Speaks,<br>Code That Flows.</h2>
-                    
-                    <p class="text-arthur-muted mb-12 max-w-md">
-                        A fusion of artistic chaos and engineering order. We ensure that every interaction feels natural and every animation serves a purpose.
-                    </p>
-
-                    <div class="grid grid-cols-3 gap-8 text-center border-t border-white/10 pt-8">
-                        <div>
-                            <div class="flex -space-x-2 justify-center mb-2">
-                                <div class="w-8 h-8 rounded-full bg-gray-600 border-2 border-arthur-bg"></div>
-                                <div class="w-8 h-8 rounded-full bg-gray-500 border-2 border-arthur-bg"></div>
-                                <div class="w-8 h-8 rounded-full bg-gray-400 border-2 border-arthur-bg"></div>
-                            </div>
-                            <h3 class="text-3xl font-bold">27+</h3>
-                            <p class="text-[10px] text-arthur-muted uppercase tracking-widest mt-1">Awards</p>
-                        </div>
-                        <div>
-                            <div class="h-8 mb-2 flex items-end justify-center gap-1">
-                                <div class="w-1 h-4 bg-arthur-purple"></div>
-                                <div class="w-1 h-6 bg-arthur-purple"></div>
-                                <div class="w-1 h-3 bg-arthur-purple"></div>
-                            </div>
-                            <h3 class="text-3xl font-bold">98%</h3>
-                            <p class="text-[10px] text-arthur-muted uppercase tracking-widest mt-1">Satisfaction</p>
-                        </div>
-                        <div>
-                            <div class="h-8 mb-2 flex items-center justify-center text-arthur-purple">
-                                <i data-lucide="check-circle" class="w-6 h-6"></i>
-                            </div>
-                            <h3 class="text-3xl font-bold">40+</h3>
-                            <p class="text-[10px] text-arthur-muted uppercase tracking-widest mt-1">Projects</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-32 px-6 md:px-12" data-scroll-section>
-            <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
-                <div>
-                    <h2 class="text-4xl font-bold mb-12">Frequently Asked <br>Questions</h2>
-                    <div class="space-y-4">
-                        <div class="group border-b border-white/10 pb-4 interactable cursor-pointer">
-                            <div class="flex justify-between items-center">
-                                <h4 class="font-medium group-hover:text-arthur-purple transition-colors">What type of clients do you work with?</h4>
-                                <i data-lucide="plus" class="w-4 h-4 text-arthur-muted"></i>
-                            </div>
-                            <p class="text-sm text-arthur-muted mt-2 hidden">We work with ambitious startups and established brands looking to reinvent themselves.</p>
-                        </div>
-                        <div class="group border-b border-white/10 pb-4 interactable cursor-pointer">
-                            <div class="flex justify-between items-center">
-                                <h4 class="font-medium group-hover:text-arthur-purple transition-colors">How long does a project take?</h4>
-                                <i data-lucide="plus" class="w-4 h-4 text-arthur-muted"></i>
-                            </div>
-                        </div>
-                        <div class="group border-b border-white/10 pb-4 interactable cursor-pointer">
-                            <div class="flex justify-between items-center">
-                                <h4 class="font-medium group-hover:text-arthur-purple transition-colors">Do you do development too?</h4>
-                                <i data-lucide="plus" class="w-4 h-4 text-arthur-muted"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative" data-scroll data-scroll-speed="1.2">
-                    <img src="https://placehold.co/500x350/333/FFF?text=FAQ+Support" class="w-full rounded-2xl grayscale hover:grayscale-0 transition-all duration-500">
-                    <div class="absolute bottom-6 left-6 right-6 glass-card p-4 rounded-lg flex items-center gap-4">
-                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                        <p class="text-xs text-white">Currently accepting new projects for Q4 2025.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-20 px-6 md:px-12" data-scroll-section>
-            <div class="container mx-auto glass-card rounded-3xl p-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-3xl font-bold mb-4">Stay Inspired, <br>Stay Connected.</h2>
-                    <p class="text-arthur-muted text-sm mb-8">Join the newsletter to receive design insights, free resources, and updates.</p>
-                    
-                    <div class="flex items-center gap-4">
-                         <div class="w-12 h-12 rounded-full overflow-hidden border border-white/20">
-                             <img src="https://placehold.co/100x100/444/FFF" class="w-full h-full object-cover">
-                         </div>
-                         <div>
-                             <div class="text-sm font-bold">Arthur's Insights</div>
-                             <div class="text-xs text-arthur-muted">Weekly Design Digest</div>
-                         </div>
-                    </div>
-                </div>
-
-                <form class="space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" placeholder="First Name" class="w-full bg-arthur-bg border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-arthur-purple transition-colors">
-                        <input type="text" placeholder="Last Name" class="w-full bg-arthur-bg border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-arthur-purple transition-colors">
-                    </div>
-                    <input type="email" placeholder="Email Address" class="w-full bg-arthur-bg border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-arthur-purple transition-colors">
-                    <button class="interactable w-full bg-arthur-purple text-white font-bold py-3 rounded-lg hover:bg-white hover:text-black transition-colors">Subscribe</button>
-                </form>
-            </div>
-        </section>
-
-        <footer class="py-20 px-6 md:px-12 border-t border-white/5" data-scroll-section>
+        <footer class="py-20 px-6 md:px-12 border-t border-white/5">
             <div class="container mx-auto grid grid-cols-2 md:grid-cols-5 gap-8 text-sm">
                 <div class="col-span-2 md:col-span-1">
-                    <div class="flex items-center gap-2 font-bold mb-4">
-                        <div class="w-6 h-6 rounded-full bg-arthur-purple flex items-center justify-center text-[10px]">A</div>
+                    <div class="flex items-center gap-2 font-semibold mb-4">
+                        <div class="w-6 h-6 rounded-full bg-arthur-purple flex items-center justify-center text-xs font-semibold">A</div>
                         Arthur
                     </div>
                     <p class="text-arthur-muted text-xs">Visual perfection through code and design.</p>
                 </div>
                 
                 <div>
-                    <h4 class="font-bold mb-4 text-white">Explore</h4>
+                    <h4 class="font-semibold mb-4 text-white">Explore</h4>
                     <ul class="space-y-2 text-arthur-muted">
                         <li><a href="#" class="hover:text-arthur-purple transition-colors">Home</a></li>
                         <li><a href="#" class="hover:text-arthur-purple transition-colors">About</a></li>
                         <li><a href="#" class="hover:text-arthur-purple transition-colors">Portfolio</a></li>
                     </ul>
                 </div>
+                
                 <div>
-                    <h4 class="font-bold mb-4 text-white">Resources</h4>
+                    <h4 class="font-semibold mb-4 text-white">Resources</h4>
                     <ul class="space-y-2 text-arthur-muted">
                         <li><a href="#" class="hover:text-arthur-purple transition-colors">Documentation</a></li>
                         <li><a href="#" class="hover:text-arthur-purple transition-colors">Style Guide</a></li>
                     </ul>
                 </div>
+                
                 <div>
-                    <h4 class="font-bold mb-4 text-white">Connect</h4>
+                    <h4 class="font-semibold mb-4 text-white">Connect</h4>
                     <ul class="space-y-2 text-arthur-muted">
                         <li><a href="#" class="hover:text-arthur-purple transition-colors">Instagram</a></li>
                         <li><a href="#" class="hover:text-arthur-purple transition-colors">LinkedIn</a></li>
                     </ul>
                 </div>
+                
                 <div class="col-span-2 md:col-span-1">
-                    <h4 class="font-bold mb-4 text-white">Get in Touch</h4>
+                    <h4 class="font-semibold mb-4 text-white">Get in Touch</h4>
                     <p class="text-arthur-muted text-xs mb-2">123 Creative Lane, Brooklyn</p>
                     <p class="text-white hover:text-arthur-purple cursor-pointer transition-colors">hello@arthur.design</p>
                 </div>
             </div>
         </footer>
-
     </div>
 
-    <script src="locomotive-scroll.min.js"></script>
     <script>
-        // Initialize Icons
-        lucide.createIcons();
+        // Initialize Lucide Icons
+        lucide.createIcons({ strokeWidth: 1.5 });
 
-        // Initialize Custom Cursor (From provided Nomad file)
+        // Custom Cursor
         const cursorDot = document.getElementById('cursor-dot');
         const cursorRing = document.getElementById('cursor-ring');
-        
+
         document.addEventListener('mousemove', (e) => {
             const x = e.clientX;
             const y = e.clientY;
+            
             cursorDot.style.left = `${x}px`;
             cursorDot.style.top = `${y}px`;
             cursorRing.style.left = `${x}px`;
             cursorRing.style.top = `${y}px`;
 
-            // Hover interactions
             const target = e.target;
             if (target.closest('.interactable') || target.tagName === 'A' || target.tagName === 'BUTTON') {
                 document.body.classList.add('hovering');
@@ -444,20 +398,214 @@
             }
         });
 
-        // Initialize Locomotive Scroll
-        document.addEventListener('DOMContentLoaded', function() {
-            const scroll = new LocomotiveScroll({
-                el: document.querySelector('[data-scroll-container]'),
-                smooth: true,
-                multiplier: 0.8, // Slightly slower for elegance
-                lerp: 0.05,
-                smartphone: { smooth: true },
-                tablet: { smooth: true }
-            });
+        // Circuit Canvas Animation
+        const canvas = document.getElementById('circuitCanvas');
+        const ctx = canvas.getContext('2d');
 
-            // Refresh Scroll on image load to fix height issues
-            setTimeout(() => { scroll.update(); }, 1000);
-        });
+        let width, height;
+        let circuits = [];
+
+        const config = {
+            maxLines: 6,
+            spawnRate: 0.85,
+            speedMin: 1,
+            speedMax: 6,
+            maxSegments: 6,
+            pulseLength: 400,
+            baseLineWidth: 1,
+            signalLineWidth: 2,
+            glowBlur: 30,
+            glowColor: 'rgba(255, 255, 255, 1.0)',
+            minSpawnGap: 100
+        };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Circuit {
+            constructor() {
+                this.path = [];
+                this.totalDistance = 0;
+                this.currentDistance = 0;
+                this.speed = Math.random() * (config.speedMax - config.speedMin) + config.speedMin;
+                this.dead = false;
+                this.generatePath();
+            }
+
+            generatePath() {
+                let attempts = 0;
+                let validSpawn = false;
+                let bestCandidate = null;
+
+                while (attempts < 50 && !validSpawn) {
+                    attempts++;
+                    const side = Math.floor(Math.random() * 4);
+                    let x, y, dirX, dirY;
+
+                    switch(side) {
+                        case 0: x = Math.random() * width; y = 0; dirX = 0; dirY = 1; break;
+                        case 1: x = width; y = Math.random() * height; dirX = -1; dirY = 0; break;
+                        case 2: x = Math.random() * width; y = height; dirX = 0; dirY = -1; break;
+                        case 3: x = 0; y = Math.random() * height; dirX = 1; dirY = 0; break;
+                    }
+
+                    let tooClose = false;
+                    for (let other of circuits) {
+                        if (other.path.length > 0 && !other.dead) {
+                            const dx = other.path[0].x - x;
+                            const dy = other.path[0].y - y;
+                            const dist = Math.hypot(dx, dy);
+                            if (dist < config.minSpawnGap) {
+                                tooClose = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!tooClose) {
+                        validSpawn = true;
+                        bestCandidate = { x, y, dirX, dirY, side };
+                    }
+                }
+
+                if (!validSpawn || !bestCandidate) {
+                    this.dead = true;
+                    return;
+                }
+
+                let { x, y, dirX, dirY } = bestCandidate;
+                this.path.push({x, y});
+
+                const maxLen = Math.max(width, height) * 0.3;
+                let currentX = x;
+                let currentY = y;
+                const segmentCount = Math.floor(Math.random() * config.maxSegments) + 2;
+
+                for (let i = 0; i < segmentCount; i++) {
+                    const len = Math.random() * (maxLen / 2) + 20;
+                    currentX += dirX * len;
+                    currentY += dirY * len;
+                    this.path.push({x: currentX, y: currentY});
+                    
+                    const prev = this.path[this.path.length - 2];
+                    const curr = this.path[this.path.length - 1];
+                    this.totalDistance += Math.hypot(curr.x - prev.x, curr.y - prev.y);
+
+                    if (this.totalDistance > maxLen) break;
+
+                    if (Math.random() > 0.5) {
+                        const temp = dirX;
+                        dirX = -dirY;
+                        dirY = temp;
+                    } else {
+                        const temp = dirX;
+                        dirX = dirY;
+                        dirY = -temp;
+                    }
+                }
+            }
+
+            update() {
+                if (this.dead) return;
+                this.currentDistance += this.speed;
+                if (this.currentDistance - config.pulseLength > this.totalDistance) {
+                    this.dead = true;
+                }
+            }
+
+            draw() {
+                if (this.dead || this.path.length < 2) return;
+
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.lineWidth = config.baseLineWidth;
+                ctx.moveTo(this.path[0].x, this.path[0].y);
+                for (let i = 1; i < this.path.length; i++) {
+                    ctx.lineTo(this.path[i].x, this.path[i].y);
+                }
+                ctx.stroke();
+
+                const headDist = this.currentDistance;
+                const tailDist = Math.max(0, this.currentDistance - config.pulseLength);
+
+                if (headDist > 0 && tailDist < this.totalDistance) {
+                    this.drawPulse(tailDist, headDist);
+                }
+            }
+
+            drawPulse(startDist, endDist) {
+                ctx.beginPath();
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = config.signalLineWidth;
+                ctx.lineCap = 'round';
+                ctx.shadowBlur = config.glowBlur;
+                ctx.shadowColor = config.glowColor;
+
+                let distSoFar = 0;
+                let started = false;
+
+                for (let i = 0; i < this.path.length - 1; i++) {
+                    const p1 = this.path[i];
+                    const p2 = this.path[i+1];
+                    const segLen = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+                    const segEndDist = distSoFar + segLen;
+
+                    if (segEndDist >= startDist && distSoFar <= endDist) {
+                        let drawStartT = 0;
+                        if (startDist > distSoFar) {
+                            drawStartT = (startDist - distSoFar) / segLen;
+                        }
+
+                        let drawEndT = 1;
+                        if (endDist < segEndDist) {
+                            drawEndT = (endDist - distSoFar) / segLen;
+                        }
+
+                        const startX = p1.x + (p2.x - p1.x) * drawStartT;
+                        const startY = p1.y + (p2.y - p1.y) * drawStartT;
+                        const endX = p1.x + (p2.x - p1.x) * drawEndT;
+                        const endY = p1.y + (p2.y - p1.y) * drawEndT;
+
+                        if (!started) {
+                            ctx.moveTo(startX, startY);
+                            started = true;
+                        }
+                        ctx.lineTo(endX, endY);
+                    }
+
+                    distSoFar = segEndDist;
+                }
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            if (circuits.length < config.maxLines && Math.random() < config.spawnRate) {
+                circuits.push(new Circuit());
+            }
+
+            for (let i = circuits.length - 1; i >= 0; i--) {
+                const circuit = circuits[i];
+                circuit.update();
+                circuit.draw();
+
+                if (circuit.dead) {
+                    circuits.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
     </script>
-</body>
-</html>
+
+</body></html>
